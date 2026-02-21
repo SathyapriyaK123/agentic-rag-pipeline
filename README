@@ -1,0 +1,209 @@
+🤖 Agentic RAG Pipeline — Intelligent Document Q&A System
+
+An intelligent document Q&A system that combines Retrieval Augmented Generation (RAG) with an Agentic Controller that dynamically decides whether to search documents or answer directly — built entirely with free, open-source tools.
+
+
+📌 What Is This Project?
+Most AI Q&A systems blindly send every question to an LLM and hope for the best. This project is different.
+Agentic RAG Pipeline uses an intelligent Agent Controller that reads the user's question, decides the best strategy to answer it, and either:
+
+Searches your PDF documents for context-specific questions
+Answers directly from LLM knowledge for general questions
+
+This means smarter, more accurate answers — and no wasted computation searching documents when it isn't needed.
+
+🧠 How It Works — Step by Step
+User Query
+    ↓
+Agent Controller (Decision Maker)
+    ↓               ↓
+SEARCH mode     DIRECT mode
+    ↓               ↓
+Load PDFs       Skip retrieval
+    ↓               ↓
+Chunk text      Send query
+    ↓           directly to LLM
+Embed chunks        ↓
+    ↓           Generate answer
+FAISS Vector Store
+    ↓
+Retrieve top-3
+relevant chunks
+    ↓
+Build context prompt
+    ↓
+DistilGPT2 LLM
+    ↓
+Final Answer
+
+✨ Key Features
+
+Agentic Decision Making — Agent Controller dynamically routes queries based on intent
+PDF Document Ingestion — Loads and processes multiple PDFs from a folder automatically
+Intelligent Chunking — Splits documents into 500-token chunks with 80-token overlap for optimal retrieval
+Semantic Search — HuggingFace all-MiniLM-L6-v2 embeddings find meaning, not just keywords
+FAISS Vector Store — Fast and efficient similarity search across document chunks
+Local LLM — DistilGPT2 runs completely offline — no API keys, no cost, no internet needed
+Zero Cost — Every tool used is completely free and open source
+
+
+🏗️ System Architecture
+┌─────────────────────────────────────────────────────┐
+│              AGENTIC RAG PIPELINE                   │
+│                                                     │
+│  📁 PDF Documents (data/ folder)                    │
+│       ↓                                             │
+│  📄 PyPDFLoader — loads all PDFs                    │
+│       ↓                                             │
+│  ✂️  RecursiveCharacterTextSplitter                  │
+│     chunk_size=500, chunk_overlap=80                │
+│       ↓                                             │
+│  🧠 HuggingFace Embeddings                          │
+│     model: all-MiniLM-L6-v2                         │
+│       ↓                                             │
+│  🗄️  FAISS Vector Store                             │
+│     top-k=3 retrieval                               │
+│                                                     │
+│  ─────────────────────────────────────────────────  │
+│                                                     │
+│  💬 User Query                                      │
+│       ↓                                             │
+│  🤖 Agent Controller                                │
+│     Keywords: pdf, document, data,                  │
+│     summarize, information, find                    │
+│       ↓              ↓                              │
+│  SEARCH mode     DIRECT mode                        │
+│  (RAG pipeline)  (LLM only)                         │
+│       ↓              ↓                              │
+│  Context prompt  Direct prompt                      │
+│       ↓              ↓                              │
+│  DistilGPT2 LLM — Text Generation                   │
+│       ↓                                             │
+│  Final Answer                                       │
+└─────────────────────────────────────────────────────┘
+
+🛠️ Tech Stack
+ComponentTechnologyPurposeDocument LoaderLangChain PyPDFLoaderLoad and parse PDF filesText SplitterRecursiveCharacterTextSplitterChunk documents intelligentlyEmbeddingsHuggingFace all-MiniLM-L6-v2Convert text to vectorsVector StoreFAISSFast similarity searchLLMDistilGPT2 (HuggingFace)Text generationAgent LogicCustom PythonQuery routing decisionFrameworkLangChain CommunityPipeline orchestrationLanguagePython 3.10+Core language
+Total Cost: $0 — 100% Free & Open Source
+
+📁 Project Structure
+agentic-rag-pipeline/
+├── rag_pipeline.py     # Main pipeline — all logic in one file
+├── data/               # Place your PDF files here
+│   └── your_docs.pdf
+└── README.md           # Project documentation
+
+⚙️ Installation
+Step 1 — Clone the Repository
+bashgit clone https://github.com/YOUR_USERNAME/agentic-rag-pipeline.git
+cd agentic-rag-pipeline
+Step 2 — Create Virtual Environment
+bashpython -m venv venv
+
+# Windows
+venv\Scripts\activate
+
+# Mac/Linux
+source venv/bin/activate
+Step 3 — Install Dependencies
+bashpip install langchain langchain-community faiss-cpu transformers torch sentence-transformers pypdf
+Step 4 — Add Your PDF Files
+Create a data/ folder and add your PDF files:
+bashmkdir data
+# Copy your PDFs into the data/ folder
+Step 5 — Run the Pipeline
+bashpython rag_pipeline.py
+
+🚀 How to Use
+Add Your PDFs
+Place any PDF files inside the data/ folder. The pipeline automatically loads all of them.
+Query Types
+Document Search Mode — triggered by keywords like: pdf, document, data, summarize, information, find
+pythonquery = "Give me a 5-point summary from the PDF"
+# Agent decides → SEARCH mode → retrieves document context → answers
+Direct Answer Mode — triggered for general knowledge questions
+pythonquery = "What is an Ideal Resume Format?"
+# Agent decides → DIRECT mode → answers from LLM knowledge directly
+
+🔍 Core Components Explained
+1. Document Ingestion
+pythondef load_docs(folder_path):
+    docs = []
+    for file in os.listdir(folder_path):
+        if file.endswith(".pdf"):
+            loader = PyPDFLoader(os.path.join(folder_path, file))
+            docs.extend(loader.load())
+    return docs
+Automatically discovers and loads all PDFs from the data folder.
+2. Intelligent Chunking
+pythontext_splitter = RecursiveCharacterTextSplitter(
+    chunk_size=500,
+    chunk_overlap=80
+)
+Splits documents into 500-token chunks with 80-token overlap — preserving context at chunk boundaries.
+3. Semantic Embeddings + Vector Store
+pythonembedding_model = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
+db = FAISS.from_texts(texts, embedding_model)
+retriever = db.as_retriever(search_kwargs={"k": 3})
+Converts text to 384-dimensional vectors for semantic similarity search — finds meaning, not just keywords.
+4. Agent Controller (The Brain)
+pythondef agent_controller(query):
+    q = query.lower()
+    if any(word in q for word in ["pdf", "document", "data", "summarize", "information", "find"]):
+        return "search"
+    return "direct"
+The decision engine that makes the pipeline "agentic" — routing queries intelligently.
+5. RAG Execution Loop
+pythondef rag_answer(query):
+    action = agent_controller(query)
+    if action == "search":
+        results = retriever.invoke(query)
+        context = "\n".join([r.page_content for r in results])
+        final_prompt = f"Use this context:\n{context}\n\nAnswer:\n{query}"
+    else:
+        final_prompt = query
+    response = llm(final_prompt)[0]["generated_text"]
+    return response
+The complete pipeline — from query to answer in one function.
+
+📊 Example Output
+TEST 1: Document-specific question
+==================================================
+Query: "Give me a 5-point summary from the PDF"
+
+🕵️ Agent decided to SEARCH document for: 'Give me a 5-point summary from the PDF'
+Answer: [Context-grounded response from your PDF content]
+
+--------------------------------------------------
+
+TEST 2: General knowledge question
+==================================================
+Query: "What is an Ideal Resume Format?"
+
+🤖 Agent decided to answer DIRECTLY: 'What is an Ideal Resume Format?'
+Answer: [Direct LLM response without document retrieval]
+
+🧪 Key Concepts Demonstrated
+ConceptImplementationRetrieval Augmented Generation (RAG)FAISS + LangChain retrieverAgentic Decision MakingCustom Agent Controller with keyword routingSemantic SearchHuggingFace all-MiniLM-L6-v2 embeddingsDocument IntelligencePyPDFLoader + RecursiveCharacterTextSplitterLocal LLM InferenceDistilGPT2 via HuggingFace TransformersVector Similarity SearchFAISS top-k retrieval
+
+🔮 Future Improvements
+
+Add metadata filtering — search by document name, date, category
+Integrate more powerful LLM (LLaMA 3, Mistral) for better answers
+Add Streamlit UI for interactive document upload and Q&A
+Implement conversation memory for multi-turn dialogue
+Add support for more file types (DOCX, TXT, CSV)
+Deploy as REST API using FastAPI
+Add ChromaDB for persistent vector storage
+Implement self-correction loop to verify answer quality
+
+
+💡 What I Learned Building This
+
+How RAG systems work end to end — from raw PDFs to answers
+How chunking strategy affects retrieval quality
+How semantic embeddings capture meaning beyond keywords
+How to build agentic decision logic for query routing
+How to run LLMs completely locally with zero API cost
+How FAISS enables fast vector similarity search at scale
+
