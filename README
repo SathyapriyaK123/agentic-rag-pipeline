@@ -36,7 +36,7 @@ DistilGPT2 LLM
     ↓
 Final Answer
 
-✨ Key Features
+Key Features
 
 Agentic Decision Making — Agent Controller dynamically routes queries based on intent
 PDF Document Ingestion — Loads and processes multiple PDFs from a folder automatically
