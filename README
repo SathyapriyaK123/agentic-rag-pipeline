@@ -47,7 +47,7 @@ Local LLM — DistilGPT2 runs completely offline — no API keys, no cost, no in
 Zero Cost — Every tool used is completely free and open source
 
 
-🏗️ System Architecture
+System Architecture
 ┌─────────────────────────────────────────────────────┐
 │              AGENTIC RAG PIPELINE                   │
 │                                                     │
