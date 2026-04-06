@@ -82,18 +82,18 @@ System Architecture
 │  Final Answer                                       │
 └─────────────────────────────────────────────────────┘
 
-🛠️ Tech Stack
+ Tech Stack
 ComponentTechnologyPurposeDocument LoaderLangChain PyPDFLoaderLoad and parse PDF filesText SplitterRecursiveCharacterTextSplitterChunk documents intelligentlyEmbeddingsHuggingFace all-MiniLM-L6-v2Convert text to vectorsVector StoreFAISSFast similarity searchLLMDistilGPT2 (HuggingFace)Text generationAgent LogicCustom PythonQuery routing decisionFrameworkLangChain CommunityPipeline orchestrationLanguagePython 3.10+Core language
 Total Cost: $0 — 100% Free & Open Source
 
-📁 Project Structure
+ Project Structure
 agentic-rag-pipeline/
 ├── rag_pipeline.py     # Main pipeline — all logic in one file
 ├── data/               # Place your PDF files here
 │   └── your_docs.pdf
 └── README.md           # Project documentation
 
-⚙️ Installation
+ Installation
 Step 1 — Clone the Repository
 bashgit clone https://github.com/YOUR_USERNAME/agentic-rag-pipeline.git
 cd agentic-rag-pipeline
@@ -114,7 +114,7 @@ bashmkdir data
 Step 5 — Run the Pipeline
 bashpython rag_pipeline.py
 
-🚀 How to Use
+ How to Use
 Add Your PDFs
 Place any PDF files inside the data/ folder. The pipeline automatically loads all of them.
 Query Types
@@ -125,7 +125,7 @@ Direct Answer Mode — triggered for general knowledge questions
 pythonquery = "What is an Ideal Resume Format?"
 # Agent decides → DIRECT mode → answers from LLM knowledge directly
 
-🔍 Core Components Explained
+ Core Components Explained
 1. Document Ingestion
 pythondef load_docs(folder_path):
     docs = []
@@ -166,12 +166,12 @@ pythondef rag_answer(query):
     return response
 The complete pipeline — from query to answer in one function.
 
-📊 Example Output
+ Example Output
 TEST 1: Document-specific question
 ==================================================
 Query: "Give me a 5-point summary from the PDF"
 
-🕵️ Agent decided to SEARCH document for: 'Give me a 5-point summary from the PDF'
+ Agent decided to SEARCH document for: 'Give me a 5-point summary from the PDF'
 Answer: [Context-grounded response from your PDF content]
 
 --------------------------------------------------
@@ -180,13 +180,13 @@ TEST 2: General knowledge question
 ==================================================
 Query: "What is an Ideal Resume Format?"
 
-🤖 Agent decided to answer DIRECTLY: 'What is an Ideal Resume Format?'
+ Agent decided to answer DIRECTLY: 'What is an Ideal Resume Format?'
 Answer: [Direct LLM response without document retrieval]
 
-🧪 Key Concepts Demonstrated
+ Key Concepts Demonstrated
 ConceptImplementationRetrieval Augmented Generation (RAG)FAISS + LangChain retrieverAgentic Decision MakingCustom Agent Controller with keyword routingSemantic SearchHuggingFace all-MiniLM-L6-v2 embeddingsDocument IntelligencePyPDFLoader + RecursiveCharacterTextSplitterLocal LLM InferenceDistilGPT2 via HuggingFace TransformersVector Similarity SearchFAISS top-k retrieval
 
-🔮 Future Improvements
+ Future Improvements
 
 Add metadata filtering — search by document name, date, category
 Integrate more powerful LLM (LLaMA 3, Mistral) for better answers
@@ -198,7 +198,7 @@ Add ChromaDB for persistent vector storage
 Implement self-correction loop to verify answer quality
 
 
-💡 What I Learned Building This
+ What I Learned Building This
 
 How RAG systems work end to end — from raw PDFs to answers
 How chunking strategy affects retrieval quality
