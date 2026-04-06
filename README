@@ -12,7 +12,7 @@ Answers directly from LLM knowledge for general questions
 
 This means smarter, more accurate answers — and no wasted computation searching documents when it isn't needed.
 
-🧠 How It Works — Step by Step
+How It Works — Step by Step
 User Query
     ↓
 Agent Controller (Decision Maker)
