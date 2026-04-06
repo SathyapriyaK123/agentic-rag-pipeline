@@ -51,24 +51,24 @@ System Architecture
 ┌─────────────────────────────────────────────────────┐
 │              AGENTIC RAG PIPELINE                   │
 │                                                     │
-│  📁 PDF Documents (data/ folder)                    │
+│   PDF Documents (data/ folder)                    │
 │       ↓                                             │
-│  📄 PyPDFLoader — loads all PDFs                    │
+│  PyPDFLoader — loads all PDFs                    │
 │       ↓                                             │
-│  ✂️  RecursiveCharacterTextSplitter                  │
+│    RecursiveCharacterTextSplitter                  │
 │     chunk_size=500, chunk_overlap=80                │
 │       ↓                                             │
-│  🧠 HuggingFace Embeddings                          │
+│   HuggingFace Embeddings                          │
 │     model: all-MiniLM-L6-v2                         │
 │       ↓                                             │
-│  🗄️  FAISS Vector Store                             │
+│    FAISS Vector Store                             │
 │     top-k=3 retrieval                               │
 │                                                     │
 │  ─────────────────────────────────────────────────  │
 │                                                     │
-│  💬 User Query                                      │
+│   User Query                                      │
 │       ↓                                             │
-│  🤖 Agent Controller                                │
+│   Agent Controller                                │
 │     Keywords: pdf, document, data,                  │
 │     summarize, information, find                    │
 │       ↓              ↓                              │
