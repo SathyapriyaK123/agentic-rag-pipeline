@@ -1,9 +1,9 @@
-🤖 Agentic RAG Pipeline — Intelligent Document Q&A System
+ Agentic RAG Pipeline — Intelligent Document Q&A System
 
 An intelligent document Q&A system that combines Retrieval Augmented Generation (RAG) with an Agentic Controller that dynamically decides whether to search documents or answer directly — built entirely with free, open-source tools.
 
 
-📌 What Is This Project?
+ What Is This Project?
 Most AI Q&A systems blindly send every question to an LLM and hope for the best. This project is different.
 Agentic RAG Pipeline uses an intelligent Agent Controller that reads the user's question, decides the best strategy to answer it, and either:
 
